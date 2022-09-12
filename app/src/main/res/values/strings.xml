@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">QuizApp</string>
+    <string name="app_welcome_name">Quiz App!</string>
+    <string name="greeting">Welcome</string>
+    <string name="user_info_request">Please enter your name</string>
+    <string name="user_info_hint">Name</string>
+    <string name="start_btn">Start</string>
+    <string name="question_image_conent_description">Quiz Image</string>
+</resources>
