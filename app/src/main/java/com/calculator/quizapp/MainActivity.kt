@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.calculator.quizapp.constants.QuizConstants.USER_NAME
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Please enter your name", Toast.LENGTH_LONG).show()
             } else {
                 val intent = Intent(this, QuizQuestionsActivity::class.java)
+                intent.putExtra(USER_NAME, inputTextName.text.toString())
                 startActivity(intent)
                 finish()
             }

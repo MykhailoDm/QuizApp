@@ -1,21 +1,24 @@
 package com.calculator.quizapp
 
-import android.content.ContextWrapper
+import android.content.Intent
 import android.graphics.Typeface
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.calculator.quizapp.constants.QuizConstants
+import com.calculator.quizapp.constants.QuizConstants.USER_NAME
 import com.calculator.quizapp.dto.QuestionDTO
 
 class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
+    private var userName: String? = null
+
     private var questionNumber: Int = 1
     private var questions: ArrayList<QuestionDTO>? = null
     private var selectedOption: Int = NO_OPTION_SELECTED
+    private var correctAnswers: Int = 0
 
     private var progressBar: ProgressBar? = null
     private var progressCount: TextView? = null
@@ -31,7 +34,6 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
 
 
     companion object {
-        const val TAG = "QuizQuestionsActivity"
         const val LAST_SUBMISSION = "FINISH"
         const val SUBMISSION = "SUBMIT"
         const val NEXT_QUESTION = "GO TO NEXT QUESTION"
@@ -41,6 +43,8 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz_questions)
+
+        userName = intent.getStringExtra(USER_NAME)
 
         progressBar = findViewById(R.id.question_progress_bar)
         progressCount = findViewById(R.id.question_progress_count)
@@ -152,14 +156,20 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
                             setQuestion()
                         }
                         else -> {
-                            // TODO send to result screen
-                            Toast.makeText(this, "Congrats.", Toast.LENGTH_LONG).show()
+                            val intent = Intent(this, ResultActivity::class.java)
+                            intent.putExtra(QuizConstants.USER_NAME, userName)
+                            intent.putExtra(QuizConstants.CORRECT_ANSWERS, correctAnswers)
+                            intent.putExtra(QuizConstants.TOTAL_QUESTIONS, questions?.size)
+                            startActivity(intent)
+                            finish()
                         }
                     }
                 } else {
                     val question = questions?.get(getQuestionIndex(questionNumber))
                     if (question!!.correctAnswer != selectedOption) {
                         answer(selectedOption, R.drawable.wrong_option_border_bg)
+                    } else {
+                        correctAnswers++
                     }
                     answer(question.correctAnswer, R.drawable.correct_option_border_bg)
 

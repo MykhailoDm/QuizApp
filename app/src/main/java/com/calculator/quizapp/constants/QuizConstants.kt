@@ -5,6 +5,10 @@ import com.calculator.quizapp.dto.QuestionDTO
 
 object QuizConstants {
 
+    const val USER_NAME = "userName"
+    const val TOTAL_QUESTIONS = "totalQuestions"
+    const val CORRECT_ANSWERS = "correctAnswers"
+
     fun getQuestions(): ArrayList<QuestionDTO> {
         val questionList = ArrayList<QuestionDTO>()
 
